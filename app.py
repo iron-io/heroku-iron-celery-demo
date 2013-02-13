@@ -22,10 +22,12 @@ def runTask():
 @app.route('/feed/<id>')
 def show_feed(id):
     result = AsyncResult(id, backend=backend)
-    if not result.ready():
-        return "Task not finished processing. Please refresh."
-    else:
+    if result.ready():
         return render_template('feed.html', feed=result.get())
+    elif result.failed():
+        return result.traceback
+    else:
+        return "Task not completed. Please refresh your browser."
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
