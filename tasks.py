@@ -11,4 +11,4 @@ def getFeed(url):
     if not resp.bozo:
         return resp
     else:
-        return {"exception": {"message": resp.bozo_exception.getMessage(), "line": resp.bozo_exception.getLineNumber()}}
+        return {"exception": str(resp.bozo_exception)}
