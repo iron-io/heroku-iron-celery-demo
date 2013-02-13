@@ -42,14 +42,22 @@
     </div>
 
 		<div class="container">
-			<h1>{{ feed.feed.title }}</h1>
+			{% if feed.feed %}
+			{% if feed.feed.title %}<h1>{{ feed.feed.title }}</h1>{% endif %}
 			{% if feed.feed.subtitle %}<p>{{ feed.feed.subtitle }}</p>{% endif %}
+			{% endif %}
 			{% for item in feed.entries %}
 			<div class="hero-unit">
 				<h2><a href="{{ item.link }}" title="{{ item.title }}">{{ item.title }}</a></h2>
 				<p>{{ item.summary|safe }}</p>
       </div>
 			{% endfor %}
+			{% if feed.exception %}
+			<div class="hero-unit">
+				<h2>Oops. Error parsing the feed.</h2>
+				<p>{{ feed.exception.message }}</p>
+				{% if feed.exception.line %}<p>{{ feed.exception.line }}</p>{% endif %}
+			</div>{% endif %}
 
     </div> <!-- /container -->
 
