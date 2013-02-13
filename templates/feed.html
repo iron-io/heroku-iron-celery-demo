@@ -55,8 +55,8 @@
 			{% if feed.exception %}
 			<div class="hero-unit">
 				<h2>Oops. Error parsing the feed.</h2>
-				<p>{{ feed.exception.message }}</p>
-				{% if feed.exception.line %}<p>{{ feed.exception.line }}</p>{% endif %}
+				<p>Error: {{ feed.exception.message }}</p>
+				{% if feed.exception.line %}<p>Encountered on line {{ feed.exception.line }}.</p>{% endif %}
 			</div>{% endif %}
 
     </div> <!-- /container -->
