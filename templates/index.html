@@ -10,7 +10,10 @@
       body {
         padding-top: 60px;
         padding-bottom: 40px;
-      }
+			}
+			#urlWarning {
+				display: none;
+			}
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -29,12 +32,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Feedreader</a>
+          <a class="brand" href="/">Feedreader</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="/">Home</a></li>
-              <li><a href="https://github.com/iron-io/heroku-clojure-tutorial">Source</a></li>
-              <li><a href="#">Tutorial</a></li>
+              <li><a href="https://github.com/paddyforan/heroku-iron-celery-demo">Source</a></li>
+              <li><a href="http://devcenter.heroku.com/articles/iron-celery">Tutorial</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -51,6 +54,7 @@
 	  				<button class="btn" type="button" id="urlButton">Fetch</button>
 					</form>
 				</div>
+				<p id="urlWarning">Please enter the URL for the feed you wish to fetch.</p>
       </div>
 
     </div> <!-- /container -->
@@ -60,8 +64,15 @@
 		<script>
 			$(document).ready(function(){
 				$("#urlButton").click(function() {
-					console.log("button clicked.");
 					$("#urlForm").submit();
+				});
+
+				$("#urlForm").submit(function() {
+					if ($("#urlInput").val() == "") {
+						$("#urlWarning").show();
+						return false;
+					}
+					return true;
 				});
 			});
 		</script>
