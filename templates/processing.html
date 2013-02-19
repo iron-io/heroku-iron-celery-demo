@@ -11,9 +11,6 @@
         padding-top: 60px;
         padding-bottom: 40px;
 			}
-			#urlWarning {
-				display: none;
-			}
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -45,48 +42,15 @@
     </div>
 
     <div class="container">
-      <div class="hero-unit">
-        <h1>Enter a Feed's URL</h1>
-				<p>Enter the URL to an RSS feed in the input below to get a list of the articles in the feed.</p>
-				<div class="input-append">
-					<form action="/queue" method="POST" id="urlForm">
-  					<input class="input-xxlarge" id="urlInput" name="url" type="url" value="http://blog.iron.io/feeds/posts/default">
-	  				<button class="btn" type="button" id="urlButton">Fetch</button>
-					</form>
-				</div>
-				<p id="urlWarning">Please enter the URL for the feed you wish to fetch.</p>
-				<h3>Sample Feeds</h3>
-				<ul>
-					<li><a href="http://blog.iron.io/feeds/posts/default" class="sample-feed">Iron.io Blog</a></li>
-					<li><a href="http://news.ycombinator.com/rss" class="sample-feed">Hacker News</a></li>
-					<li><a href="http://feeds2.feedburner.com/heroku" class="sample-feed">Heroku Blog</a></li>
-				</ul>
+			<div class="hero-unit">
+				<h1>Fetching the Feed...</h1>
+				<p><a href="http://www.celeryproject.org" title="Celery">Celery</a> is currently processing your task in the background. The feed is being downloaded and parsed on a separate dyno. Go ahead, refresh the page. When the feed is downloaded and processed, the results will be displayed on this page.</p>
+				<p>This is particularly useful for long-running requests: fetching feeds, retrieving data from an API, doing heavy calculations like image processing... anything that takes a little bit of time can be offloaded to the background with Celery, so it happens outside of the user request. And as your site gets more visitors, you can scale the throughput of your task processing simply by adding another dyno.</p>
       </div>
 
     </div> <!-- /container -->
 
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-		<script>
-			$(document).ready(function(){
-				$("#urlButton").click(function() {
-					$("#urlForm").submit();
-				});
-
-				$("#urlForm").submit(function() {
-					if ($("#urlInput").val() == "") {
-						$("#urlWarning").show();
-						return false;
-					}
-					return true;
-				});
-
-				$(".sample-feed").click(function(e) {
-					e.preventDefault();
-					$("#urlInput").val($(this).attr('href'));
-					$("#urlForm").submit();
-				});
-			});
-		</script>
   </body>
 </html>

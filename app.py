@@ -27,7 +27,7 @@ def show_feed(id):
     elif result.failed():
         return result.traceback
     else:
-        return "Task not completed. Please refresh your browser."
+        return render_template('processing.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
