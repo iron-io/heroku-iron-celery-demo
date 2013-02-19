@@ -27,10 +27,6 @@ We're going to use [virtualenv](http://pypi.python.org/pypi/virtualenv) to manag
 
 	$ pip install virtualenv
 
-Or if you prefer, easy_install:
-
-	$ easy_install virtualenv
-
 Once installed, create a new environment for the project inside the project folder:
 
 	$ virtualenv venv
@@ -49,10 +45,6 @@ You can install flask from pip:
 
 	$ pip install flask
 
-If you prefer easy_install:
-
-	$ easy_install flask
-
 Flask will now be installed into your virtual environment, for your application to use.
 
 ### Installing Celery
@@ -61,17 +53,9 @@ Flask will now be installed into your virtual environment, for your application 
 
 	$ pip install celery
 
-Or easy_install:
-
-	$ easy_install celery
-
 We're also going to want the [Iron.io Celery library](http://www.iron.io/celery), so install that as well:
 
 	$ pip install iron-celery
-
-You can also use easy_install:
-
-	$ easy_install iron-celery
 
 ### Installing Feedparser
 
@@ -80,10 +64,6 @@ You can also use easy_install:
 To get feedparser, use pip:
 
 	$ pip install feedparser
-
-Or you can use easy_install:
-
-	$ easy_install feedparser
 
 ## Writing Our Task
 
@@ -99,7 +79,7 @@ Writing a Celery task is as simple as writing a decorated Python function. Creat
 	@celery.task
 	def getFeed(url):
 	    resp = feedparser.parse(url)
-    	if not resp.bozo:
+    	if not resp.bozo or isinstance(resp.bozo_exception, feedparser.NonXMLContentType):
 	        return resp
     	else:
         	return {"exception": str(resp.bozo_exception)}
@@ -137,7 +117,7 @@ Now that you've verified your task works as expected, let's create a web interfa
 
 Creating a web interface using Flask is fairly trivial. We're going to use [Twitter's Bootstrap](http://twitter.github.com/bootstrap) for our interface, but the only part that really matters is that a POST request get sent to `/queue` with a `url` field set to the URL that should be downloaded.
 
-First, you're going to create some templates. You can find these in our [Github repo for this tutorial](https://github.com/paddyforan/heroku-iron-celery-demo/tree/master/templates). We need one page to display the results of our task, and one page that users can enter a URL on to start a task.
+First, you're going to create some templates. You can find these in our [Github repo for this tutorial](https://github.com/paddyforan/heroku-iron-celery-demo/tree/master/templates). We need one page to display the results of our task, one page that displays while the task is processing, and one page that users can enter a URL on to start a task.
 
 Our templates use some static files, as well. [You can find those in our Github repo, too.](https://github.com/paddyforan/heroku-iron-celery-demo/tree/master/static)
 
@@ -167,13 +147,13 @@ Finally, we need to write the app to display these pages and queue tasks. Create
 
 	@app.route('/feed/<id>')
 	def show_feed(id):
-    	result = AsyncResult(id, backend=backend)
-	    if result.ready():
-    	    return render_template('feed.html', feed=result.get())
-	    elif result.failed():
-    	    return result.traceback
+            result = AsyncResult(id, backend=backend)
+            if result.ready():
+                return render_template('feed.html', feed=result.get())
+            elif result.failed():
+                return result.traceback
 	    else:
-    	    return "Task not completed. Please refresh your browser."
+                return render_template('processing.html')
 
 	if __name__ == '__main__':
     	port = int(os.environ.get('PORT', 5000))
