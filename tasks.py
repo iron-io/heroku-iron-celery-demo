@@ -8,7 +8,7 @@ celery = Celery('tasks', broker='ironmq://', backend='ironcache://')
 def getFeed(url):
     print "Got feed "+url
     resp = feedparser.parse(url)
-    if not resp.bozo or resp.bozo_exception == feedparser.CharacterEncodingUnknown:
+    if not resp.bozo or isinstance(resp.bozo_exception, feedparser.NonXMLContentType):
         return resp
     else:
         return {"exception": str(resp.bozo_exception)}
