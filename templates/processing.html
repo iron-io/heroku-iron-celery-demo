@@ -44,6 +44,7 @@
     <div class="container">
 			<div class="hero-unit">
 				<h1>Fetching the Feed...</h1>
+				<p><strong>This page will refresh in <span id="countdown">5</span> seconds, but feel free to refresh at will.</strong></p>
 				<p><a href="http://www.celeryproject.org" title="Celery">Celery</a> is currently processing your task in the background. The feed is being downloaded and parsed on a separate dyno. Go ahead, refresh the page. When the feed is downloaded and processed, the results will be displayed on this page.</p>
 				<p>This is particularly useful for long-running requests: fetching feeds, retrieving data from an API, doing heavy calculations like image processing... anything that takes a little bit of time can be offloaded to the background with Celery, so it happens outside of the user request. And as your site gets more visitors, you can scale the throughput of your task processing simply by adding another dyno.</p>
       </div>
@@ -51,6 +52,19 @@
     </div> <!-- /container -->
 
     <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				setInterval(function() {
+					secs = parseInt($("#countdown").text());
+					if(secs <= 1) {
+						location.reload();
+					} else {
+						secs = secs - 1;
+						$("#countdown").text(secs);
+					}
+				}, 1000);
+			});
+		</script>
   </body>
 </html>
