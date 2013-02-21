@@ -11,6 +11,20 @@
         padding-top: 60px;
         padding-bottom: 40px;
 			}
+			.visuals {
+				vertical-align: middle;
+				text-align: center;
+			}
+			.visuals > img, .visuals > div {
+				padding: 20px;
+			}
+			.dual-arrow > img {
+				padding: 5px;
+			}
+			.celery-viz, .dual-arrow {
+				display: inline-block;
+				vertical-align: middle;
+			}
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -45,6 +59,19 @@
 			<div class="hero-unit">
 				<h1>Fetching the Feed...</h1>
 				<p><strong>This page will refresh in <span id="countdown">5</span> seconds, but feel free to refresh at will.</strong></p>
+				<div class="visuals">
+					<img src="/static/img/heroku.png" alt="Heroku" />
+					<img src="/static/img/arrow_right.png" alt="arrow right" />
+					<div class="celery-viz">
+						<img src="/static/img/celery.png" alt="Celery" /><br />
+						<img src="/static/img/ajax-loader.gif" alt="throbber" />
+					</div>
+					<div class="dual-arrow">
+						<img src="/static/img/arrow_right.png" alt="arrow right" /><br />
+						<img src="/static/img/arrow_left.png" alt="arrow left" />
+					</div>
+					<img src="/static/img/iron.png" alt="Iron.io" />
+				</div>
 				<p><a href="http://www.celeryproject.org" title="Celery">Celery</a> is currently processing your task in the background. The feed is being downloaded and parsed on a separate dyno. Go ahead, refresh the page. When the feed is downloaded and processed, the results will be displayed on this page.</p>
 				<p>This is particularly useful for long-running requests: fetching feeds, retrieving data from an API, doing heavy calculations like image processing... anything that takes a little bit of time can be offloaded to the background with Celery, so it happens outside of the user request. And as your site gets more visitors, you can scale the throughput of your task processing simply by adding another dyno.</p>
       </div>
