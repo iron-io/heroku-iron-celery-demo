@@ -58,7 +58,6 @@
     <div class="container">
 			<div class="hero-unit">
 				<h1>Fetching the Feed...</h1>
-				<p><strong>This page will refresh in <span id="countdown">5</span> seconds, but feel free to refresh at will.</strong></p>
 				<div class="visuals">
 					<img src="/static/img/heroku.png" alt="Heroku" />
 					<img src="/static/img/arrow_right.png" alt="arrow right" />
@@ -80,13 +79,12 @@
 		<script src="/static/js/bootstrap.min.js"></script>
 		<script>
 			$(document).ready(function() {
+			  var secs = 5;
 				setInterval(function() {
-					secs = parseInt($("#countdown").text());
 					if(secs <= 1) {
 						location.reload();
 					} else {
 						secs = secs - 1;
-						$("#countdown").text(secs);
 					}
 				}, 1000);
 			});
